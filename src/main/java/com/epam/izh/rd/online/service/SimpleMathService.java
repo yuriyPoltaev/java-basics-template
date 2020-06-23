@@ -1,5 +1,7 @@
 package com.epam.izh.rd.online.service;
 
+import java.util.Arrays;
+
 public class SimpleMathService implements MathService {
 
     /**
@@ -148,7 +150,16 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] sort(int[] values) {
-        return new int[]{};
+        for (int barrier = 0; barrier < values.length - 1; barrier++) {
+            for (int index = 0; index < values.length - 1 - barrier; index++) {
+                if (values[index] > values[index + 1]) {
+                    int tmp = values[index];
+                    values[index] = values[index + 1];
+                    values[index + 1] = tmp;
+                }
+            }
+        }
+        return values;
     }
 
     /**
@@ -159,6 +170,17 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public boolean isPrimary(int number) {
+        if(number>=0) {
+            boolean isSimple = true;
+            double sqrtNumber = Math.sqrt(number);
+            for (int i = 2; i <= sqrtNumber; i++) {
+                if (number % i == 0) {
+                    isSimple = false;
+                }
+            }
+            return isSimple;
+        }
+        System.out.println("Ошибка ввода, введите целое положительное число");
         return false;
     }
 
@@ -169,6 +191,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] reverseArray(int[] values) {
-        return new int[]{};
+        for (int barrier = 0; barrier < values.length - 1; barrier++) {
+            for (int index = 0; index < values.length - 1 - barrier; index++) {
+                int tmp = values[index];
+                values[index] = values[index + 1];
+                values[index + 1] = tmp;
+            }
+        }
+        return values;
     }
 }
