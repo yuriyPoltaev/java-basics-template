@@ -1,5 +1,7 @@
 package com.epam.izh.rd.online.service;
 
+import java.util.Arrays;
+
 public class SimpleMathService implements MathService {
 
     /**
@@ -13,7 +15,15 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int compare(int value1, int value2) {
-        return -2;
+        if (value1 == value2) {
+            return 0;
+        }
+        else if (value1 < value2) {
+            return -1;
+        }
+        else  {
+            return 1;
+        }
     }
 
     /**
@@ -22,7 +32,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int value1, int value2) {
-        return -1;
+        if (value1 < value2) {
+            return value2;
+        } else if (value1 == value2) {
+            return 0;
+        } else {
+            return value1;
+        }
     }
 
     /**
@@ -31,7 +47,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int[] values) {
-        return -1;
+        int maxNumber = values[0];
+        for (int i = 1; i < values.length; i++) {
+            if (values[i] > maxNumber) {
+                maxNumber = values[i];
+            }
+        }
+        return maxNumber;
     }
 
     /**
@@ -40,7 +62,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int sum(int[] values) {
-        return -1;
+        int sumNumber = 0;
+        for (int i = 0; i < values.length; i++) {
+            sumNumber = sumNumber + values[i];
+        }
+        return sumNumber;
     }
 
     /**
@@ -49,7 +75,26 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] getEvenDigits(int[] values) {
-        return new int[]{};
+        /*
+        для начала необходимо узнать количество четных чисел, чтобы далее создать новый
+        массив нужной длинны
+        */
+        int lenght = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] % 2 != 0) continue;
+            lenght++;
+        }
+        /*
+        Далее создаем новый массив и с помощью цикла заполняем его четными значениями из первого цикла
+        */
+        int[] newValues = new int [lenght];
+        int index = 0;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] % 2 != 0) continue;
+            newValues[index] = values[i];
+            index++;
+        }
+        return newValues;
     }
 
     /**
@@ -59,7 +104,15 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFactorial(int initialVal) {
-        return -1L;
+        long factorial = 1; // реализуем исключение для нуля
+        if(initialVal>=0) { // защита от ввода отрицательных чисел, иначе их факториал так же приравняется к 1
+            for (long i = 1; i <= initialVal; i++) { //если initialVal=0 то просто не заходит в цикл
+                factorial = factorial * i;
+            }
+        }else{
+            System.out.println("Ошибка! Введите целое неотрицательное число");
+        }
+        return factorial;
     }
 
     /**
@@ -74,7 +127,21 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFibonacci(int number) {
-        return -1L;
+        long[] fibonacciMassive;
+        if(number>=0) {
+            fibonacciMassive = new long[number+2];
+            // +2 для того чтобы при вводе 0 и 1 код работал корректно
+            // создает один дополнительный элемент в массиве, возможно стоит доработать
+            fibonacciMassive[0]=0;
+            fibonacciMassive[1]=1;
+            for (int i = 2; i < fibonacciMassive.length; i++) {
+                fibonacciMassive[i]=fibonacciMassive[i-1]+fibonacciMassive[i-2];
+            }
+        }else{
+            fibonacciMassive = new long[0];
+            System.out.println("Ошибка! Введите целое неотрицательное число");
+        }
+        return fibonacciMassive[number];
     }
 
     /**
@@ -83,7 +150,16 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] sort(int[] values) {
-        return new int[]{};
+        for (int barrier = 0; barrier < values.length - 1; barrier++) {
+            for (int index = 0; index < values.length - 1 - barrier; index++) {
+                if (values[index] > values[index + 1]) {
+                    int tmp = values[index];
+                    values[index] = values[index + 1];
+                    values[index + 1] = tmp;
+                }
+            }
+        }
+        return values;
     }
 
     /**
@@ -94,6 +170,17 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public boolean isPrimary(int number) {
+        if(number>=0) {
+            boolean isSimple = true;
+            double sqrtNumber = Math.sqrt(number);
+            for (int i = 2; i <= sqrtNumber; i++) {
+                if (number % i == 0) {
+                    isSimple = false;
+                }
+            }
+            return isSimple;
+        }
+        System.out.println("Ошибка ввода, введите целое положительное число");
         return false;
     }
 
@@ -104,6 +191,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] reverseArray(int[] values) {
-        return new int[]{};
+        for (int barrier = 0; barrier < values.length - 1; barrier++) {
+            for (int index = 0; index < values.length - 1 - barrier; index++) {
+                int tmp = values[index];
+                values[index] = values[index + 1];
+                values[index + 1] = tmp;
+            }
+        }
+        return values;
     }
 }
