@@ -32,11 +32,9 @@ public class SimpleMathService implements MathService {
     public int maxFrom(int value1, int value2) {
         if (value1 < value2) {
             return value2;
-        }
-        else if (value1 == value2) {
-            return 0/0;
-        }
-        else  {
+        } else if (value1 == value2) {
+            return 0;
+        } else {
             return value1;
         }
     }
@@ -47,7 +45,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int[] values) {
-        return -1;
+        int maxNumber = values[0];
+        for (int i = 1; i < values.length; i++) {
+            if (values[i] > maxNumber) {
+                maxNumber = values[i];
+            }
+        }
+        return maxNumber;
     }
 
     /**
